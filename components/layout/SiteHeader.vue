@@ -1,10 +1,10 @@
 <template>
-  <header class="border-b">
+  <header class="border-b bg-white dark:bg-gray-800 text-black dark:text-white">
     <div class="container mx-auto px-4 py-4">
       <nav class="flex items-center justify-between">
         <NuxtLink to="/" class="text-2xl font-bold"> 🐕 Dog Gallery </NuxtLink>
 
-        <div class="flex gap-4">
+        <div class="flex items-center gap-4">
           <NuxtLink
             v-for="item in menuItems"
             :key="item.path"
@@ -13,6 +13,13 @@
           >
             {{ item.title }}
           </NuxtLink>
+
+          <UButton
+            icon="i-heroicons-sun-20-solid"
+            color="gray"
+            variant="ghost"
+            @click="toggleColorMode"
+          />
         </div>
       </nav>
     </div>
@@ -25,4 +32,10 @@ const menuItems = [
   { title: "Breeds", path: "/breeds" },
   { title: "About", path: "/about" },
 ];
+
+const colorMode = useColorMode();
+
+const toggleColorMode = () => {
+  colorMode.preference = colorMode.value === "dark" ? "light" : "dark";
+};
 </script>
