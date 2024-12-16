@@ -1,12 +1,13 @@
 <template>
   <div class="container mx-auto px-4 py-8">
     <div class="mb-8">
-      <h1 class="text-3xl font-bold">Dog Breeds Directory</h1>
-      <p class="text-gray-600 mt-2">
+      <h1 class="text-3xl font-bold dark:text-white">Dog Breeds Directory</h1>
+      <p class="text-gray-600 dark:text-gray-400 mt-2">
         Explore our comprehensive collection of dog breeds
       </p>
     </div>
 
+    <!-- Search input remains the same since UInput handles dark mode -->
     <div class="mb-8">
       <UInput
         v-model="searchQuery"
@@ -28,7 +29,7 @@
       <div
         v-for="n in 6"
         :key="n"
-        class="bg-gray-100 rounded-lg h-72 animate-pulse"
+        class="bg-gray-100 dark:bg-gray-800 rounded-lg h-72 animate-pulse"
       />
     </div>
 
@@ -39,7 +40,7 @@
       <div
         v-for="breed in paginatedBreeds"
         :key="breed.name"
-        class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+        class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
       >
         <NuxtLink :to="`/breeds/${breed.name}`" class="block h-full">
           <div class="aspect-w-16 aspect-h-9">
@@ -51,18 +52,21 @@
             />
           </div>
           <div class="p-4">
-            <h3 class="text-xl font-semibold capitalize">{{ breed.name }}</h3>
+            <h3 class="text-xl font-semibold capitalize dark:text-white">
+              {{ breed.name }}
+            </h3>
           </div>
         </NuxtLink>
       </div>
     </div>
 
     <div v-else-if="!isLoading" class="text-center py-12">
-      <p class="text-gray-500 text-lg">
+      <p class="text-gray-500 dark:text-gray-400 text-lg">
         No breeds found matching "{{ searchQuery }}"
       </p>
     </div>
 
+    <!-- UPagination handles dark mode automatically -->
     <UPagination
       v-if="filteredBreeds.length > itemsPerPage"
       v-model="currentPage"

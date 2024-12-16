@@ -28,7 +28,7 @@
         <div
           v-for="breed in featuredBreeds"
           :key="breed"
-          class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+          class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
         >
           <NuxtLink :to="`/breeds/${breed}`">
             <img
@@ -37,7 +37,9 @@
               class="w-full h-48 object-cover"
             />
             <div class="p-4">
-              <h3 class="text-xl font-semibold capitalize">{{ breed }}</h3>
+              <h3 class="text-xl font-semibold capitalize dark:text-white">
+                {{ breed }}
+              </h3>
             </div>
           </NuxtLink>
         </div>
