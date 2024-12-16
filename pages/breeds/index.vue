@@ -80,7 +80,9 @@ const itemsPerPage = 6;
 
 const { breeds, isLoading, error, fetchBreeds } = useBreeds();
 
-await fetchBreeds();
+onMounted(async () => {
+  await fetchBreeds();
+});
 
 const filteredBreeds = computed(() => {
   return breeds.value.filter((breed) =>

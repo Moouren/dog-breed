@@ -1,36 +1,55 @@
-import type { Ref } from "vue";
-import type { Breed } from "~/types/breed";
+// composables/useBreeds.ts
+interface Breed {
+  name: string;
+  image: string;
+}
+
+interface DogApiResponse {
+  message: Record<string, string[]>;
+  status: string;
+}
+
+interface DogImageResponse {
+  message: string;
+  status: string;
+}
+
+interface ErrorType {
+  message: string;
+}
 
 export const useBreeds = () => {
-  const breeds: Ref<Breed[]> = useState("breeds", () => []);
-  const isLoading = ref(false);
-  const error = ref<Error | null>(null);
+  const breeds = useState<Breed[]>("breeds", () => []);
+  const isLoading = useState<boolean>("breeds-loading", () => true);
+  const error = useState<ErrorType | null>("breeds-error", () => null);
 
   const fetchBreeds = async () => {
-    if (breeds.value.length) return;
-
     try {
       isLoading.value = true;
-      const { data: breedsData } = await useFetch<{ message: string[] }>(
-        "https://dog.ceo/api/breeds/list"
+      const response = await $fetch<DogApiResponse>(
+        "https://dog.ceo/api/breeds/list/all"
       );
 
-      if (breedsData.value?.message) {
-        const breedsList = await Promise.all(
-          breedsData.value.message.map(async (breedName) => {
-            const { data: image } = await useFetch<{ message: string }>(
+      if (response.message) {
+        const breedNames = Object.keys(response.message);
+        const initialBreeds = await Promise.all(
+          breedNames.map(async (breedName): Promise<Breed> => {
+            const imageResponse = await $fetch<DogImageResponse>(
               `https://dog.ceo/api/breed/${breedName}/images/random`
             );
             return {
               name: breedName,
-              image: image.value?.message || "",
+              image: imageResponse.message,
             };
           })
         );
-        breeds.value = breedsList;
+        breeds.value = initialBreeds;
+        error.value = null; // پاک کردن خطای قبلی در صورت موفقیت
       }
     } catch (e) {
-      error.value = e instanceof Error ? e : new Error("Unknown error");
+      const errorMessage =
+        e instanceof Error ? e.message : "Failed to fetch breeds";
+      error.value = { message: errorMessage };
     } finally {
       isLoading.value = false;
     }
