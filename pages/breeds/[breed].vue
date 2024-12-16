@@ -11,7 +11,6 @@
       </div>
     </div>
   </div>
-
   <div v-else-if="error" class="container mx-auto px-4 py-12 text-center">
     <h1 class="text-4xl font-bold mb-4">Breed Not Found</h1>
     <p class="text-gray-600 mb-8">{{ error }}</p>
@@ -22,13 +21,11 @@
       View All Breeds
     </NuxtLink>
   </div>
-
   <div v-else class="container mx-auto px-4 py-8">
     <div class="mb-8">
       <h1 class="text-4xl font-bold capitalize mb-2">{{ breed }}</h1>
       <p class="text-gray-600">Explore beautiful photos of {{ breed }} dogs</p>
     </div>
-
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <div
         v-for="(image, index) in breedImages"
@@ -55,7 +52,6 @@ const error = ref<string | null>(null);
 
 onMounted(async () => {
   try {
-    // Verify if breed exists
     const { data: breedsList } = await useFetch<{ message: string[] }>(
       "https://dog.ceo/api/breeds/list"
     );
@@ -64,7 +60,6 @@ onMounted(async () => {
       throw new Error("Breed not found");
     }
 
-    // Fetch multiple random images for the breed
     const { data: images } = await useFetch<{ message: string[] }>(
       `https://dog.ceo/api/breed/${breed}/images/random/6`
     );

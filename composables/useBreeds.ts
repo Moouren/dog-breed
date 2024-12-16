@@ -1,22 +1,9 @@
-// composables/useBreeds.ts
-interface Breed {
-  name: string;
-  image: string;
-}
-
-interface DogApiResponse {
-  message: Record<string, string[]>;
-  status: string;
-}
-
-interface DogImageResponse {
-  message: string;
-  status: string;
-}
-
-interface ErrorType {
-  message: string;
-}
+import type {
+  Breed,
+  DogApiResponse,
+  DogImageResponse,
+  ErrorType,
+} from "~/types/breed";
 
 export const useBreeds = () => {
   const breeds = useState<Breed[]>("breeds", () => []);
@@ -44,7 +31,7 @@ export const useBreeds = () => {
           })
         );
         breeds.value = initialBreeds;
-        error.value = null; // پاک کردن خطای قبلی در صورت موفقیت
+        error.value = null;
       }
     } catch (e) {
       const errorMessage =

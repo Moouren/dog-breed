@@ -7,7 +7,6 @@
       </p>
     </div>
 
-    <!-- Search input remains the same since UInput handles dark mode -->
     <div class="mb-8">
       <UInput
         v-model="searchQuery"
@@ -65,8 +64,6 @@
         No breeds found matching "{{ searchQuery }}"
       </p>
     </div>
-
-    <!-- UPagination handles dark mode automatically -->
     <UPagination
       v-if="filteredBreeds.length > itemsPerPage"
       v-model="currentPage"
@@ -87,13 +84,11 @@ const { breeds, isLoading, error, fetchBreeds } = useBreeds();
 onMounted(async () => {
   await fetchBreeds();
 });
-
 const filteredBreeds = computed(() => {
   return breeds.value.filter((breed) =>
     breed.name.toLowerCase().includes(searchQuery.value.toLowerCase())
   );
 });
-
 const paginatedBreeds = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage;
   const end = start + itemsPerPage;

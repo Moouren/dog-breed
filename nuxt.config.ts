@@ -5,4 +5,5 @@ export default defineNuxtConfig({
   colorMode: {
     classSuffix: "",
   },
+  compatibilityDate: "2024-04-03",
 });
